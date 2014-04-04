@@ -117,6 +117,8 @@ test('<div data-bind="with:predFalse"><span data-bind="text:name"></span></div>'
 test('<div data-bind="with:obj"><span data-bind="text:foo"></span></div>');
 
 test('<div data-bind="attr:{id:id},foreach:items"><div data-bind="attr:{id:key},text:value"></div></div>');
+// complex attr
+test('<div data-bind="attr:{id:items[0].key}"></div>');
 
 test('<div data-bind="foreach:arr"><div data-bind="text:$.echo($data)"></div></div>');
 
