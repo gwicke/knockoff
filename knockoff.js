@@ -32,3 +32,21 @@ function compile(template, options) {
 module.exports = {
 	compile: compile
 };
+
+function main () {
+	var template = '';
+	process.stdin.on('readable', function() {
+		var chunk = process.stdin.read();
+		if (chunk !== null) {
+			template += chunk;
+		}
+	});
+	process.stdin.on('end', function () {
+		console.log(JSON.stringify(koCompiler.compile(template)));
+	});
+}
+
+if (!module.parent) {
+	// run as cmdline script
+	main();
+}
