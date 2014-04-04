@@ -35,8 +35,8 @@ var model = {
 			echo: function(i) {
 				return i;
 			},
-			echoJSON: function(i) {
-				return JSON.stringify(i);
+			echoJSON: function() {
+				return JSON.stringify(Array.prototype.slice.apply(arguments));
 			}
 		},
 		partials: {
@@ -121,6 +121,12 @@ test('<div data-bind="attr:{id:id},foreach:items"><div data-bind="attr:{id:key},
 test('<div data-bind="foreach:arr"><div data-bind="text:$.echo($data)"></div></div>');
 
 test('<div data-bind="text: $.echoJSON( { id : &quot;id&quot; } )"></div>');
+test('<div data-bind="text: $.echoJSON( { id : \'a\', foo: \'foo\' } )"></div>');
+test('<div data-bind="text: $.echoJSON( 1,2,3,4 )"></div>');
+test('<div data-bind="text: $.echoJSON( items )"></div>');
+test('<div data-bind="text: $.echoJSON( items[0] )"></div>');
+test('<div data-bind="text: $.echoJSON( items[0].key )"></div>');
+test('<div data-bind="text: $.echoJSON( items[0].key,items[1].key )"></div>');
 
 /**
  * KnockoutJS tests
