@@ -62,7 +62,7 @@ TAssembly automatically.
 KnockOff spec
 =============
 
-KnockOff supports a subset of [KnockOut](http://knockoutjs.com/) functionality. The biggest differences are:
+KnockOff supports a subset of [KnockOut](http://knockoutjs.com/documentation/introduction.html) functionality. The biggest differences are:
 
 - No reactivity. KnockOff aims for speed and one-shot operation.
 
