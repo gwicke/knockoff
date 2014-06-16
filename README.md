@@ -2,3 +2,163 @@ KnockOff
 ========
 
 [KnockoutJS](http://knockoutjs.com/) to [TAssembly](https://github.com/gwicke/tassembly) compiler
+
+== Usage
+
+Simple example:
+```javascript
+var ko = require('knockoff');
+
+var template = ko.compile('<div data-bind="attr:{id:id}, text: body"></div>'),
+    model = {
+	id: "myId",
+	body: "some text"
+    };
+
+console.log( template( model ) );
+```
+
+Compile to [TAssembly](https://github.com/gwicke/tassembly) for later execution:
+```javascript
+var ko = require('knockoff');
+
+var tassemblyTemplate = ko.compile(
+	'<div data-bind="attr:{id:id}, text: body"></div>',
+	{ toTAssembly: true }
+    );
+// ["<div",["attr",{"id":"m.id"}],">",["text","m.body"],"</div>"]
+console.log( JSON.stringify( tassemblyTemplate) );
+```
+
+Compile all the way to a function, and pass in [TAssembly compilation
+options](https://github.com/gwicke/tassembly/blob/master/README.md#usage):
+```javascript
+var ko = require('knockoff');
+
+var options = {
+	globals: {
+	    echo: function(x) {
+		return x;
+	    }
+	},
+	partials: {
+	    user: '<span data-bind="text: name"></span>'
+	}
+
+var template = ko.compile(
+	'<div data-bind="template: { name: user, data: user }"></div>'),
+	options
+    ),
+    model = {
+	user: { name: "Foo" }
+    };
+
+console.log( template( model ) );
+```
+Partials are expected to be in KnockOff syntax, and will be compiled to
+TAssembly automatically.
+
+
+KnockOff spec
+=============
+
+KnockOff supports a subset of [KnockOut](http://knockoutjs.com/) functionality. The biggest differences are:
+
+- No reactivity. KnockOff aims for speed and one-shot operation.
+
+- Limited expression syntax. KnockOut supports arbitrary JS, while we restrict
+  ourselves to literals (including objects), model access and function calls.
+  The usual KnockOut model accessors are supported. In addition, a global
+  ```$``` object is defined, which can be defined at compile time.
+
+
+### text
+Emit text content. HTML-sensitive chars are escaped. Options is a single
+expression:
+```html
+<div data=bind="text: textContent"></div>
+```
+
+### foreach
+Iterate over an array. The view model '$data' in each iteration is each member of the
+array.
+```html
+<ul data-bind="foreach: links">
+    <li data-bind="text: $data"></li>
+</ul>
+```
+
+If each array element is an object, its members will be directly accessible
+in the loop's view model:
+
+```html
+<ul data-bind="foreach: people">
+    <li><a data-bind="attr: { href: homepageURL }, text: name"></a></li>
+</ul>
+```
+You can pass in the name of a partial instead of the inline template.
+
+```$index```, ```$parent``` and other context properties work just like [in
+KnockOut](http://knockoutjs.com/documentation/foreach-binding.html).
+
+### template
+Calls a template (inline or name of a partial) with a given model.
+```html
+<div data-bind="template: { name: 'person-template', data: buyer }"></div>
+```
+
+### with
+The with binding creates a new binding context, so that descendant elements
+are bound in the context of a specified object. It evaluates a nested block
+```iff``` the model object is truish.
+```html
+<div data-bind="with: person">
+    <span data-bind="text: firstName"></span>
+    <span data-bind="text: lastName"></span>
+</div>
+```html
+
+### if
+Evaluates a block or template if an expression is true.
+```html
+<div data-bind="if: displayMessage">Here is a message. Astonishing.</div>
+```
+
+### ifnot
+Evaluates a block or template if an expression is false.
+```html
+<div data-bind="ifnot: displayMessage">No message to display.</div>
+```
+
+### attr
+Emit one or more HTML attributes. Automatic context-sensitive escaping is
+applied to href, src and style attributes. 
+
+```html
+<a data-bind="attr: { href: url, title: details }">
+    Report
+</a>
+```
+
+Model access and expressions
+----------------------------
+* Literals: 
+  * Number ```2``` or ```3.4```
+  * Quoted string ```'Some string literal'```
+  * Object ```{foo: 'bar', baz: someVar}```
+* Variable access with dot notation: ```foo.bar```
+* Array references: ```users[user]```
+* Function calls: ```$.i18n('username', {foo: bar} )```; nesting and multiple
+  parameters supported
+
+Expressions have access to a handful of variables defined in the current
+context:
+* ```$data``` - current view model
+* ```$root``` - root (topmost) view model
+* ```$parent``` - parent view model
+* ```$parents``` - array of parent view models
+* ```$parentContext``` - parent context object
+* ```$index``` - current iteration index in foreach
+* ```$``` - globals defined at compile time; typically used for helper functions
+  which should not be part of the model (i18n etc). This is an extension over
+  KnockOut.
