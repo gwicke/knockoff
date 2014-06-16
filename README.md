@@ -140,6 +140,18 @@ applied to href, src and style attributes.
 </a>
 ```
 
+### visible
+Hides a block using CSS if the condition is falsy.
+
+```html
+<div data-bind="visible: shouldShowMessage">
+    You will see this message only when "shouldShowMessage" holds a true value.
+</div>
+```
+
+Currently this uses ```display: none !important;``` inline, but we could also
+add a class instead. Let us know which you prefer.
+
 Model access and expressions
 ----------------------------
 * Literals: 
