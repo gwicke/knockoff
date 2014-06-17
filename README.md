@@ -101,11 +101,14 @@ You can pass in the name of a partial instead of the inline template.
 ```$index```, ```$parent``` and other context properties work just like [in
 KnockOut](http://knockoutjs.com/documentation/foreach-binding.html).
 
+See also [the KnockOut docs for ```foreach```](http://knockoutjs.com/documentation/foreach-binding.html).
+
 ### template
 Calls a template (inline or name of a partial) with a given model.
 ```html
 <div data-bind="template: { name: 'person-template', data: buyer }"></div>
 ```
+See also [the KnockOut docs for ```template```](http://knockoutjs.com/documentation/template-binding.html).
 
 ### with
 The with binding creates a new binding context, so that descendant elements
@@ -116,19 +119,22 @@ are bound in the context of a specified object. It evaluates a nested block
     <span data-bind="text: firstName"></span>
     <span data-bind="text: lastName"></span>
 </div>
-```html
+```
+See also [the KnockOut docs for ```with```](http://knockoutjs.com/documentation/with-binding.html).
 
 ### if
 Evaluates a block or template if an expression is true.
 ```html
 <div data-bind="if: displayMessage">Here is a message. Astonishing.</div>
 ```
+See also [the KnockOut docs for ```if```](http://knockoutjs.com/documentation/if-binding.html).
 
 ### ifnot
 Evaluates a block or template if an expression is false.
 ```html
 <div data-bind="ifnot: displayMessage">No message to display.</div>
 ```
+See also [the KnockOut docs for ```ifnot```](http://knockoutjs.com/documentation/ifnot-binding.html).
 
 ### attr
 Emit one or more HTML attributes. Automatic context-sensitive escaping is
@@ -139,6 +145,7 @@ applied to href, src and style attributes.
     Report
 </a>
 ```
+See also [the KnockOut docs for ```attr```](http://knockoutjs.com/documentation/attr-binding.html).
 
 ### visible
 Hides a block using CSS if the condition is falsy.
@@ -152,8 +159,14 @@ Hides a block using CSS if the condition is falsy.
 Currently this uses ```display: none !important;``` inline, but we could also
 add a class instead. Let us know which you prefer.
 
+See also [the KnockOut docs for ```visible```](http://knockoutjs.com/documentation/visible-binding.html).
+
 Model access and expressions
 ----------------------------
+KnockOff supports a restricted set of simple JS expressions. These are a
+subset of KnockOut's arbitrary JS. A KnockOff expression will normally also be
+a valid KnockOut expression.
+
 * Literals: 
   * Number ```2``` or ```3.4```
   * Quoted string ```'Some string literal'```
