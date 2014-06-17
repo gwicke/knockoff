@@ -78,6 +78,7 @@ expression:
 ```html
 <div data=bind="text: textContent"></div>
 ```
+See also [the KnockOut docs for ```text```](http://knockoutjs.com/documentation/text-binding.html).
 
 ### foreach
 Iterate over an array. The view model '$data' in each iteration is each member of the
