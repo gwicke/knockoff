@@ -62,6 +62,7 @@ var model = {
 };
 
 // Now execute the template with the model.
+// Prints: <div><span>Foo</span></div>
 console.log( templateFn( model ) );
 ```
 
