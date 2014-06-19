@@ -44,12 +44,12 @@ var options = {
     },
     // Define partial templates
     partials: {
-        user: '<span data-bind="text: name"></span>'
+        userTpl: '<span data-bind="text: $.echo(name)"></span>'
     }
 };
 
 // Our simple template using KnockOut syntax, and referencing the partial
-var templateString = '<div data-bind="template: { name: user, data: user }"></div>';
+var templateString = '<div data-bind="template: { name: \'userTpl\', data: user }"></div>';
 
 // Now compile the template & options into a function.
 // Uses TAssembly internally, use toTAssembly option for TAssembly output.
