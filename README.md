@@ -90,7 +90,8 @@ KnockOff supports a subset of [KnockOut](http://knockoutjs.com/documentation/int
 - Limited expression syntax. KnockOut supports arbitrary JS, while we restrict
   ourselves to literals (including objects), model access and function calls.
   The usual KnockOut model accessors are supported. In addition, a global
-  ```$``` object is defined, which can be defined at compile time.
+  ```$``` object is defined, which can be populated in the ```globals```
+  compile time option.
 
 
 ### text
