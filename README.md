@@ -36,24 +36,26 @@ options](https://github.com/gwicke/tassembly/blob/master/README.md#usage):
 var ko = require('knockoff');
 
 var options = {
-	globals: {
-	    echo: function(x) {
-		return x;
-	    }
-	},
-	partials: {
-	    user: '<span data-bind="text: name"></span>'
-	}
+    // Define globals accessible as $.* in any scope
+    globals: {
+        echo: function(x) {
+            return x;
+        }
+    },
+    // Define partial templates
+    partials: {
+        user: '<span data-bind="text: name"></span>'
+    }
+};
 
-var template = ko.compile(
-	'<div data-bind="template: { name: user, data: user }"></div>'),
-	options
-    ),
-    model = {
-	user: { name: "Foo" }
-    };
+var templateString = '<div data-bind="template: { name: user, data: user }"></div>';
+var templateFn = ko.compile(templateString, options);
 
-console.log( template( model ) );
+var model = {
+    user: { name: "Foo" }
+};
+
+console.log( templateFn( model ) );
 ```
 Partials are expected to be in KnockOff syntax, and will be compiled to
 TAssembly automatically.
