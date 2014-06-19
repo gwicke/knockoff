@@ -48,15 +48,22 @@ var options = {
     }
 };
 
+// Our simple template using KnockOut syntax, and referencing the partial
 var templateString = '<div data-bind="template: { name: user, data: user }"></div>';
+
+// Now compile the template & options into a function.
+// Uses TAssembly internally, use toTAssembly option for TAssembly output.
 var templateFn = ko.compile(templateString, options);
 
+// A simple model object
 var model = {
     user: { name: "Foo" }
 };
 
+// Now execute the template with the model.
 console.log( templateFn( model ) );
 ```
+
 Partials are expected to be in KnockOff syntax, and will be compiled to
 TAssembly automatically.
 
