@@ -1,7 +1,17 @@
 KnockOff
 ========
 
-[KnockoutJS](http://knockoutjs.com/) to [TAssembly](https://github.com/gwicke/tassembly) compiler
+[KnockoutJS](http://knockoutjs.com/) to [TAssembly](https://github.com/gwicke/tassembly) compiler.
+
+- Compiles a basic subset of KnockoutJS functionality to TAssembly, a
+  simple JSON-based intermediate template representation.
+- Builds a HTML5 DOM internally, ensures proper nesting.
+- TAssembly performs context-sensitive escaping of all user-provided data.
+- The overall solution is the fastest JS templating library [in our
+  micro-benchmarks](https://github.com/gwicke/TemplatePerf/blob/master/results.txt),
+  but yet provides the security benefits of much more expensive DOM templating
+  libraries.
+
 
 ## Usage
 
