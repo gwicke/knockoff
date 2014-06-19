@@ -42,7 +42,8 @@ var options = {
             return x;
         }
     },
-    // Define partial templates
+    // Define partial templates.
+    // This one uses the global echo function defined above.
     partials: {
         userTpl: '<span data-bind="text: $.echo(name)"></span>'
     }
