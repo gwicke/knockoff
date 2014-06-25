@@ -209,4 +209,5 @@ context:
 * ```$index``` - current iteration index in foreach
 * ```$``` - globals defined at compile time; typically used for helper functions
   which should not be part of the model (i18n etc). This is an extension over
-  KnockOut.
+  KnockOut, which can be replicated there using [expression
+  rewriting](http://knockoutjs.com/documentation/binding-preprocessing.html).
