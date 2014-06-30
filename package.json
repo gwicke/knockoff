@@ -1,6 +1,6 @@
 {
 	"name": "knockoff",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"main": "knockoff.js",
 	"dependencies": {
 		"tassembly": "git+https://github.com/gwicke/tassembly.git#master",
@@ -10,6 +10,7 @@
 		"pegjs": "~0.8.0"
 	},
 	"scripts": {
-		"prepublish": "node makeKnockoutExpressionParser.js"
+		"prepublish": "node makeKnockoutExpressionParser.js",
+        "test": "node test"
 	}
 }
