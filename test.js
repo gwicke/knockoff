@@ -5,6 +5,7 @@
 var tests = require('./tests.json'),
     model = tests.model,
     ko = require('./knockoff.js'),
+    ta = require('./node_modules/tassembly/tassembly.js'),
     assert = require('assert'),
     options = {
 		globals: {
@@ -20,12 +21,12 @@ var tests = require('./tests.json'),
 
 tests.tests.forEach(function(test) {
     // Test compilation to TAssembly
-    var ta = ko.compile(test.knockout, { toTAssembly: true });
-    assert.equal(JSON.stringify(test.tassembly), JSON.stringify(ta));
+    var tpl = ko.compile(test.knockout, { toTAssembly: true, partials: options.partials });
+    assert.equal(JSON.stringify(test.tassembly), JSON.stringify(tpl));
 
     // Test evaluation using TAssembly, implicitly testing the TAssembly
     // runtime
-    var res = ko.compile(test.knockout, options)(model);
+    var res = ta.compile(tpl, options)(model);
     assert.equal(JSON.stringify(test.result), JSON.stringify(res));
 });
 
