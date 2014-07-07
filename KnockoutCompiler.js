@@ -68,7 +68,12 @@ function handleNode(node, cb, options) {
 	var bindObj,
 		bindOpts, ctlFn, ctlOpts,
 		ret = {};
-	try {
+
+    if (node.getAttribute('data-bind-placeholder') === 'true') {
+        ret.stripWrapper = true;
+    }
+
+    try {
 		bindObj = KnockoutExpressionParser.parse(dataBind, parserOptions);
 	} catch (e) {
 		console.error('Error while compiling ' + JSON.stringify(dataBind) + ':\n' + e);
@@ -158,8 +163,56 @@ function handleNode(node, cb, options) {
 	}
 
 
+
 	return ret;
 }
+
+var ELEMENT_NODE = 1,
+    COMMENT_NODE = 8,
+    koStartComment = /^\s*ko\s(.*)$/,
+    koEndComment = /^\s*\/ko\s*$/;
+function preprocessComments (node, options) {
+    if (node.nodeType === ELEMENT_NODE) {
+        var children = node.childNodes.slice();
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            if (child.nodeType === COMMENT_NODE
+                    && koStartComment.test(child.data)) {
+                var dataBind = koStartComment.exec(child.data)[1];
+                // look for the closing tag
+                var j = i + 1,
+                    endNode = children[j];
+                while (endNode) {
+                    if (endNode.nodeType === COMMENT_NODE
+                        && koEndComment.test(endNode.data)) {
+                        // Found the end node. Wrap into div.
+                        var div = child.ownerDocument.createElement('div');
+                        div.setAttribute('data-bind', dataBind);
+                        div.setAttribute('data-bind-placeholder', 'true');
+                        node.insertBefore(div, child.nextSibling);
+                        // Move children into div wrapper
+                        i++;
+                        while (i < j) {
+                            div.appendChild(children[i]);
+                            i++;
+                        }
+                        // Skip over processed children & remove comments
+                        // XXX: preserve some of those comments?
+                        node.removeChild(child);
+                        node.removeChild(endNode);
+                        i = j - 1;
+                        break;
+                    } else {
+                        endNode = children[++j];
+                    }
+                }
+            } else if (child.nodeType === ELEMENT_NODE) {
+                preprocessComments(child, options);
+            }
+        }
+    }
+}
+
 
 /**
  * Compile a Knockout template to TAssembly JSON
@@ -180,6 +233,9 @@ function compile (nodeOrString) {
 		// Include all children, but not <body> itself
 		options.innerXML = true;
 	}
+
+    preprocessComments(node, options);
+    //console.log(node.outerHTML);
 
 	return new DOMCompiler().compile(node, options);
 }

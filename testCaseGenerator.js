@@ -159,7 +159,8 @@ test("<div data-bind='foreach: arr'><input data-bind='value: $rawData'/></div>")
 test("<div data-bind='foreach: arr'><span data-bind='text: $data'></span></div>");
 
 // HTML comment syntax
-//test("hi <!-- ko foreach: someItems --><span data-bind='text: childProp'></span><!-- /ko -->");
+test("<ul><!-- ko foreach: arr --><li data-bind='text: $data'></li><!-- /ko -->");
+test("hi <!-- ko foreach: someItems --><span data-bind='text: childProp'></span><!-- /ko -->");
 
 
 /**

@@ -184,6 +184,22 @@ add a class instead. Let us know which you prefer.
 
 See also [the KnockOut docs for ```visible```](http://knockoutjs.com/documentation/visible-binding.html).
 
+### Virtual elements / container-less syntax
+You can use Knockout's comment syntax to apply *control flow bindings* (`if`,
+`ifnot`, `foreach`, `with`) to arbitrary content outside of elements:
+
+```html
+<ul>
+    <li>This item always appears</li>
+    <!-- ko if: someExpressionGoesHere -->
+        <li>I want to make this item present/absent dynamically</li>
+    <!-- /ko -->
+</ul>
+```
+See also [the KnockOut docs for
+```if```](http://knockoutjs.com/documentation/if-binding.html) and other
+control flow bindings.
+
 Model access and expressions
 ----------------------------
 KnockOff supports a restricted set of simple JS expressions. These are a

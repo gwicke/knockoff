@@ -858,6 +858,49 @@
       "result": "<div><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>"
     },
     {
+      "knockout": "<ul><!-- ko foreach: arr --><li data-bind='text: $data'></li><!-- /ko -->",
+      "tassembly": [
+        "<ul>",
+        [
+          "foreach",
+          {
+            "data": "m.arr",
+            "tpl": [
+              "<li>",
+              [
+                "text",
+                "m"
+              ],
+              "</li>"
+            ]
+          }
+        ],
+        "</ul>"
+      ],
+      "result": "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul>"
+    },
+    {
+      "knockout": "hi <!-- ko foreach: someItems --><span data-bind='text: childProp'></span><!-- /ko -->",
+      "tassembly": [
+        "hi ",
+        [
+          "foreach",
+          {
+            "data": "m.someItems",
+            "tpl": [
+              "<span>",
+              [
+                "text",
+                "m.childProp"
+              ],
+              "</span>"
+            ]
+          }
+        ]
+      ],
+      "result": "hi <span>first child</span><span>second child</span>"
+    },
+    {
       "knockout": "<div data-bind=\"text: 2 + 2 &#x22;\">Hello world</div>",
       "tassembly": [
         "<div>Hello world</div>"

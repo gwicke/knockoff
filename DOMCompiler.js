@@ -85,30 +85,32 @@ function serializeToString(node, options, cb){
 		var len = attrs.length;
 		var nodeName = node.tagName.toLowerCase(),
 			localName = node.localName;
-		cb('<' + localName);
-		for(var i=0;i<len;i++){
-			var attr = attrs.item(i),
-				singleQuotes, doubleQuotes,
-				useSingleQuotes = false;
-			if (options.smartQuote &&
-					// More double quotes than single quotes in value?
-					(attr.value.match(/"/g) || []).length >
-					(attr.value.match(/'/g) || []).length)
-			{
-				// use single quotes
-				cb(' ' + attr.name + "='"
-						+ attr.value.replace(/[<&']/g, _xmlEncoder) + "'");
-			} else {
-				// use double quotes
-				cb(' ' + attr.name + '="'
-						+ attr.value.replace(/[<&"]/g, _xmlEncoder) + '"');
-			}
-		}
-		if (ret.attr) {
-			cb(ret.attr);
-		}
+        if (!ret.stripWrapper) {
+            cb('<' + localName);
+            for(var i=0;i<len;i++){
+                var attr = attrs.item(i),
+                    singleQuotes, doubleQuotes,
+                    useSingleQuotes = false;
+                if (options.smartQuote &&
+                        // More double quotes than single quotes in value?
+                        (attr.value.match(/"/g) || []).length >
+                        (attr.value.match(/'/g) || []).length)
+                {
+                    // use single quotes
+                    cb(' ' + attr.name + "='"
+                            + attr.value.replace(/[<&']/g, _xmlEncoder) + "'");
+                } else {
+                    // use double quotes
+                    cb(' ' + attr.name + '="'
+                            + attr.value.replace(/[<&"]/g, _xmlEncoder) + '"');
+                }
+            }
+            if (ret.attr) {
+                cb(ret.attr);
+            }
+        }
 		if(child || ret.content || !emptyElements[nodeName]) {
-			cb('>');
+			if (!ret.stripWrapper) { cb('>'); }
 			if (ret.content) {
 				cb(ret.content);
 			} else if(hasRawContent[nodeName]) {
@@ -129,8 +131,8 @@ function serializeToString(node, options, cb){
 					child = child.nextSibling;
 				}
 			}
-			cb('</' + localName + '>');
-		}else{
+            if (!ret.stripWrapper) { cb('</' + localName + '>'); }
+		}else if (!ret.stripWrapper) {
 			cb('/>');
 		}
 		return;
